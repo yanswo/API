@@ -1,24 +1,21 @@
 const jsonServer = require("json-server");
 const server = jsonServer.create();
 const router = jsonServer.router("db.json");
-const middlewares = jsonServer.defaults();
 
-// Configuração para a variável de ambiente PORT
-const port = process.env.PORT || 3000;
+const middlewares = jsonServer.defaults();
 
 server.use(middlewares);
 
-// Roteamento
 server.use(
   jsonServer.rewriter({
-    "/*": "/$1", // Garantir que a API seja reescrita corretamente
+    "/*": "/$1",
   })
 );
 
-// Uso do router com o db.json
 server.use(router);
 
-// Configuração da porta para o servidor, o Render deve passar o port via process.env.PORT
+// Usa a variável de ambiente PORT fornecida pela plataforma
+const port = process.env.PORT || 3000; // A plataforma define a porta, ou 3000 como fallback
 server.listen(port, () => {
   console.log(`JSON Server is running on port ${port}`);
 });
